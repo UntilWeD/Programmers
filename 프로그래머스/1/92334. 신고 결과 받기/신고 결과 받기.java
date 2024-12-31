@@ -3,37 +3,39 @@ import java.util.*;
 class Solution {
     public int[] solution(String[] id_list, String[] report, int k) {
         int[] answer = new int[id_list.length];
-        HashMap<String, Integer> count_map = new HashMap<>();
-        HashMap<String, Integer> id_index = new HashMap<>();
-        HashMap<String, HashSet<String>> reportMap = new HashMap<>();
-        
-        
-        for(int i=0; i<id_list.length; i++){
-            id_index.put(id_list[i], i);
-        }
-        
-        for(int i=0; i <report.length; i++){
-            // detail[0] = 신고자, detail[1] = 피신고자
-            String[] detail = report[i].split(" ");
-            
-            reportMap.putIfAbsent(detail[0], new HashSet<>());
-            if(reportMap.get(detail[0]).add(detail[1])){
-                count_map.put(detail[1], count_map.getOrDefault(detail[1], 0) + 1);
-            }
+        HashMap<String, Integer> idIndex = new HashMap<>();
+        HashMap<String, Integer> reportCount = new HashMap<>();
+        HashMap<String, HashSet<String>> reports = new HashMap<>();
 
+        // 사용자 ID별 인덱스 초기화
+        for (int i = 0; i < id_list.length; i++) {
+            idIndex.put(id_list[i], i);
+            reports.put(id_list[i], new HashSet<>());
         }
-        
-        
-        for(String reporter : reportMap.keySet()){
-            for(String reported : reportMap.get(reporter)){
-                if(count_map.getOrDefault(reported, 0) >= k){
-                    answer[id_index.get(reporter)]++;
+
+        // 중복 제거와 신고 횟수 계산
+        for (String rep : report) {
+            String[] detail = rep.split(" ");
+            String reporter = detail[0];
+            String reported = detail[1];
+
+            // 중복 신고 방지 및 신고 횟수 증가
+            if (reports.get(reporter).add(reported)) {
+                reportCount.put(reported, reportCount.getOrDefault(reported, 0) + 1);
+            }
+        }
+
+        // 결과 계산
+        for (String user : id_list) {
+            if (reportCount.getOrDefault(user, 0) >= k) {
+                for (String reporter : id_list) {
+                    if (reports.get(reporter).contains(user)) {
+                        answer[idIndex.get(reporter)]++;
+                    }
                 }
             }
         }
-        
-        
-        
+
         return answer;
     }
 }
