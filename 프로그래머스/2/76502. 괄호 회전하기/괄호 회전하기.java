@@ -3,8 +3,6 @@ import java.util.*;
 class Solution {
     public int solution(String s) {
         int answer = 0;
-        
-        
         for(int i=0; i<s.length(); i++){
             Stack<Character> stack = new Stack<>();
             for(int j=0; j<s.length(); j++){
@@ -21,14 +19,9 @@ class Solution {
                     }
                 }
             }
-            
-            if(stack.empty()){
+            if(stack.empty())
                 answer++;
-            }
-            
         }
-        
-        
         
         return answer;
     }
