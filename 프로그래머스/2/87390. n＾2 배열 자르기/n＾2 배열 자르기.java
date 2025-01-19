@@ -10,9 +10,6 @@ class Solution {
             left++;
         }
         
-        
-        
-        
         return answer;
     }
 }
