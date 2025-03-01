@@ -8,20 +8,14 @@ class Solution {
             map.put(weights[i], map.getOrDefault(weights[i], 0) + 1);
         }
         
-        Set<Integer> set = new HashSet<>();
-        
-        for(int weight : weights){
-            
-            if(set.contains(weight))
-                continue;
-            set.add(weight);
-            
+        for(int weight : map.keySet()){
+
             int count = map.get(weight);
             if(count > 1){
                 answer += (long) count * (count-1) / 2;
             }
             
-            int[][] ratios = {{2, 3}, {3, 2}, {2, 4}, {4, 2}, {3, 4}, {4, 3}};
+            int[][] ratios = {{3, 2}, {4, 2}, {4, 3}};
 
             for (int[] ratio : ratios) {
                 int numerator = ratio[0];
@@ -29,7 +23,7 @@ class Solution {
 
                 if (weight * numerator % denominator == 0) {
                     int pairWeight = weight * numerator / denominator;
-                    if (pairWeight > weight && map.containsKey(pairWeight)) {
+                    if (map.containsKey(pairWeight)) {
                         answer += (long) count * map.get(pairWeight);
                     }
                 }
