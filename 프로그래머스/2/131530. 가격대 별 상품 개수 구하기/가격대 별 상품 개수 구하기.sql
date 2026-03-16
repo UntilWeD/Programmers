@@ -1,0 +1,11 @@
+SELECT      T2.PR AS PRICE_GROUP
+           ,COUNT(T1.PRICE)
+  FROM      PRODUCT T1
+           ,(
+                  SELECT   DISTINCT TRUNC(PRICE / 10000) * 10000 AS PR
+                    FROM   PRODUCT
+           ) T2
+ WHERE      TRUNC(T1.PRICE / 10000) * 10000 = T2.PR
+GROUP BY    T2.PR
+ORDER BY    PRICE_GROUP ASC
+;
