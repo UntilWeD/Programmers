@@ -1,0 +1,11 @@
+-- 코드를 입력하세요
+SELECT      CATEGORY
+           ,SUM(SALES) AS TOTAL_SALES
+  FROM      BOOK        T1
+           ,BOOK_SALES  T2
+ WHERE      T1.BOOK_ID  =   T2.BOOK_ID
+   AND      TO_CHAR(T2.SALES_DATE, 'YYYYMM') =  '202201'
+GROUP BY    CATEGORY
+ORDER BY    CATEGORY ASC
+;
+    
